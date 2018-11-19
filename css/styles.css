@@ -1,0 +1,32 @@
+.checkers__row-blocks {
+	list-style: none;
+}
+
+.checkers__block {
+	margin: 0;
+	padding: 0;
+}
+
+.checkers__row-blocks {
+}
+
+.checkers__row-blocks > li {
+	width: 70px;
+	height: 70px;
+	background: transparent;
+}
+
+.checkers__row-blocks--dark > li:nth-child(even),
+.checkers__row-blocks--light > li:nth-child(odd) {
+	background: #a25a31;
+}
+
+.checkers__row-blocks--dark > li:nth-child(odd),
+.checkers__row-blocks--light > li:nth-child(even) {
+	background: #fdd3a9;
+}
+
+.checkers__row-blocks--dark > li:first-child,
+.checkers__row-blocks--light > li:first-child {
+	background: transparent;
+}
