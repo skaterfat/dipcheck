@@ -1,32 +1,84 @@
-.checkers__row-blocks {
+body {
+	background: url('../img/purty_wood_light.png') 0 0 repeat;
+}
+
+.wrap {
+
+}
+
+.checkers {
+
+}
+
+.checkers-desk {
+
+	margin-top: 60px;
+
+}
+
+.checkers__row {
 	list-style: none;
-}
-
-.checkers__block {
-	margin: 0;
+	width: 630px;
+	height: 70px;
+	margin:  0 auto;
 	padding: 0;
+	position: relative;
+	left: -35px;
 }
 
-.checkers__row-blocks {
-}
-
-.checkers__row-blocks > li {
+.checkers__row > li {
 	width: 70px;
 	height: 70px;
 	background: transparent;
+	float: left;
+	font-weight: bold;
+	font-style: italic;
+	color: rgba(0, 0, 0, .6)
 }
 
-.checkers__row-blocks--dark > li:nth-child(even),
-.checkers__row-blocks--light > li:nth-child(odd) {
-	background: #a25a31;
+.checkers__row--start-dark > li:nth-child(even),
+.checkers__row--start-light > li:nth-child(odd) {
+	background: #a85d5d;
 }
 
-.checkers__row-blocks--dark > li:nth-child(odd),
-.checkers__row-blocks--light > li:nth-child(even) {
-	background: #fdd3a9;
+.checkers__row--start-dark > li:nth-child(odd),
+.checkers__row--start-light > li:nth-child(even) {
+	background: #ffd2a6;
 }
 
-.checkers__row-blocks--dark > li:first-child,
-.checkers__row-blocks--light > li:first-child {
+.checkers__row--start-dark > li:first-child,
+.checkers__row--start-light > li:first-child {
 	background: transparent;
+	line-height: 70px;
+	text-align: center;
+}
+
+.checkers__row-name {
+
+}
+
+.checkers__col-empty {
+
+}
+
+.checkers__col-name {
+	line-height: 70px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.checkers__row-name,
+.checkers__col-name {
+	-webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.checkers__cell {
+	margin: 0;
+	padding: 0;
 }

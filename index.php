@@ -11,41 +11,43 @@
 </head>
 <body>
 
-	<div class="container checkers">
+	<main class="wrap">
 
-		<?
-			$arRows = Array(8, 7, 6, 5, 4, 3, 2, 1);
-			$arCols = Array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+		<div class="checkers">
 
-			foreach($arRows as $key => $row):?>
+			<div class="checkers-desk">
 
+				<?
+				$arRows = Array(8, 7, 6, 5, 4, 3, 2, 1);
+				$arCols = Array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
-					<ul class="row mb-0 checkers__row-blocks <?=($row%2==0?'checkers__row-blocks--dark':'checkers__row-blocks--light')?>">
+				foreach($arRows as $key => $row):?>
 
-						<li class="checkers__rowname"><?=$row?></li>
+					<ul class="checkers__row checkers__row--<?=$row?> <?=($row%2==0?'checkers__row--start-dark':'checkers__row--start-light')?>">
+
+						<li class="checkers__row-name"><?=$row?></li>
 
 						<?for($i = 0; $i < 8; $i++):?>
-						<li class="checkers__block checkers__block--<?=$arCols[$i].$row?>"></li>
+						<li class="checkers__cell checkers__cell--<?=($row%2==0&&$i%2==0?'dark':'light')?>" id="<?=$arCols[$i].$row?>"></li>
 						<?endfor;?>
 
 					</ul>
 
 
-			<?endforeach;?>
+				<?endforeach;?>
 
-		<div class="row">
-			<div class="col-1 checkers__empty"></div>
-			<div class="col-1 heckers__colname">a</div>
-			<div class="col-1 heckers__colname">b</div>
-			<div class="col-1 heckers__colname">c</div>
-			<div class="col-1 heckers__colname">d</div>
-			<div class="col-1 heckers__colname">e</div>
-			<div class="col-1 heckers__colname">f</div>
-			<div class="col-1 heckers__colname">g</div>
-			<div class="col-1 heckers__colname">h</div>
+				<ul class="checkers__row">
+					<li class="checkers__col-empty"></li>
+					<?foreach($arCols as $col):?>
+					<li class="checkers__col-name"><?=$col?></li>
+					<?endforeach;?>
+				</ul>
+
+			</div>
+
 		</div>
 
-	</div>
+	</main>
 
 
 </body>
