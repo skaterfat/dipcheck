@@ -21,14 +21,24 @@
 				$arRows = Array(8, 7, 6, 5, 4, 3, 2, 1);
 				$arCols = Array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
-				foreach($arRows as $key => $row):?>
+				foreach($arRows as $key => $row):
+
+				?>
 
 					<ul class="checkers__row checkers__row--<?=$row?> <?=($row%2==0?'checkers__row--start-dark':'checkers__row--start-light')?>">
 
 						<li class="checkers__row-name"><?=$row?></li>
 
-						<?for($i = 0; $i < 8; $i++):?>
-						<li class="checkers__cell checkers__cell--<?=($row%2==0&&$i%2==0?'dark':'light')?>" id="<?=$arCols[$i].$row?>"></li>
+						<?for($i = 0; $i < 8; $i++):
+
+							if($row > 5 && (($row%2==0 && $i%2==0) || ($row%2!=0 && $i%2!=0)) )
+								$sChecker = '<span class="checkers__check checkers__check--black"></span>';
+							elseif($row < 4 && (($row%2==0 && $i%2==0) || ($row%2!=0 && $i%2!=0)))
+								$sChecker = '<span class="checkers__check checkers__check--white"></span>';
+							else
+									$sChecker = '';
+						?>
+						<li class="checkers__cell checkers__cell--<?=($row%2==0&&$i%2==0?'dark':'light')?>" id="<?=$arCols[$i].$row?>"><?=$sChecker?></li>
 						<?endfor;?>
 
 					</ul>

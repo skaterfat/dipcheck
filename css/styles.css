@@ -82,3 +82,19 @@ body {
 	margin: 0;
 	padding: 0;
 }
+
+.checkers__check {
+	display: block;
+	width: 62px;
+	height: 62px;
+	background: url('../img/sprite.svg') 0 0 no-repeat;
+	margin: 4px 0 0 4px;
+}
+
+.checkers__check--black {
+	background-position: -19px -9px;
+}
+
+.checkers__check--white {
+	background-position: -94px -9px;
+}
