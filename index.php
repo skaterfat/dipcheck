@@ -31,14 +31,20 @@
 
 						<?for($i = 0; $i < 8; $i++):
 
+							/* Расставление шашек
+
 							if($row > 5 && (($row%2==0 && $i%2==0) || ($row%2!=0 && $i%2!=0)) )
 								$sChecker = '<span class="checkers__check checkers__check--black"></span>';
 							elseif($row < 4 && (($row%2==0 && $i%2==0) || ($row%2!=0 && $i%2!=0)))
 								$sChecker = '<span class="checkers__check checkers__check--white"></span>';
 							else
-									$sChecker = '';
+								$sChecker = '';
+
+							*/
 						?>
-						<li class="checkers__cell checkers__cell--<?=($row%2==0&&$i%2==0?'dark':'light')?>" id="<?=$arCols[$i].$row?>"><?=$sChecker?></li>
+
+
+						<li class="checkers__cell checkers__cell--<?=($row%2==0&&$i%2==0?'dark':'light')?>" id="<?=$arCols[$i].$row?>"><?/*=$sChecker*/?></li>
 						<?endfor;?>
 
 					</ul>

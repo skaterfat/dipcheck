@@ -98,3 +98,11 @@ body {
 .checkers__check--white {
 	background-position: -94px -9px;
 }
+
+.checkers__check--black-queen {
+	background-position: -19px -79px;
+}
+
+.checkers__check--white-queen {
+	background-position: -94px -79px;
+}
