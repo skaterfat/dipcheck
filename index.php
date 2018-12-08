@@ -13,6 +13,12 @@
 
 	<main class="wrap">
 
+		<header class="header">
+
+			<a href="javascript:;" class="header__logo"></a>
+
+		</header><!-- /header -->
+
 		<div class="checkers">
 
 			<div class="checkers-desk">

@@ -6,13 +6,27 @@ body {
 
 }
 
+.header {
+
+}
+
+.header__logo {
+	display: block;
+	margin:  30px auto 0px;
+	width: 196px;
+	height: 111px;
+	background: url('../img/sprite.svg') -179px -10px no-repeat;
+	cursor: default;
+
+}
+
 .checkers {
 
 }
 
 .checkers-desk {
 
-	margin-top: 60px;
+	margin-top: 30px;
 
 }
 
