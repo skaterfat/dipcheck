@@ -3,6 +3,8 @@ jQuery(document).ready(function($) {
 	var aDeskCols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
 		aDeskRows = [8, 7, 6, 5, 4, 3, 2, 1],
 		oCheckDesk = {},
+		aCellsOnlyBlackQueen = ['b1', 'd1', 'f1', 'h1'],
+		aCellsOnlyWhiteQueen = ['a8', 'c8', 'e8', 'g8'],
 		aCheckersHtmlCodes = [
 			'<span class="checkers__check checkers__check--white"></span>', //Белая
 			'<span class="checkers__check checkers__check--white-queen"></span>', // Белая дамка
@@ -20,7 +22,7 @@ jQuery(document).ready(function($) {
 			oCheckDesk[aDeskCols[i].concat(aDeskRows[j])] = {
 				id: aDeskCols[i].concat(aDeskRows[j]),
 				dark: bIsDarkCell,
-				isBusy: false,
+				busy: false,
 				checker: false
 			}
 
@@ -28,7 +30,7 @@ jQuery(document).ready(function($) {
 
 	}
 
-	//console.log(oCheckDesk);
+	console.log(oCheckDesk);
 
 	//Клик по клетке
 	$('.checkers__cell').on('click', function(event) {
@@ -44,7 +46,7 @@ jQuery(document).ready(function($) {
 		//Переменная текущей клетки
 		var oCurCell = oCheckDesk[CELL_ID];
 
-		if(oCurCell.isBusy === false && nCountCheckersOnDesk() > 8) {
+		if(oCurCell.busy === false && nCountCheckersOnDesk() > 8) {
 			alert('Установка более 9 шашек на доске невозможна!');
 			return false;
 		}
@@ -56,19 +58,30 @@ jQuery(document).ready(function($) {
 		}
 
 		//Если клетка не занята
-		if(oCurCell.isBusy === false) {
+		if(oCurCell.busy === false) {
 
-			oCurCell.isBusy = true;
-			oCurCell.checker = 0;
-			$('[id="'+CELL_ID+'"]').html(aCheckersHtmlCodes[0]);
+			oCurCell.busy = true;
+
+			//Если мы кликаем на самую последнюю линию для белых, то там может стоять только белая дамка
+			if(in_array(CELL_ID, aCellsOnlyWhiteQueen))
+				oCurCell.checker = 1;
+			else
+				oCurCell.checker = 0;
+
+			$('[id="'+CELL_ID+'"]').html(aCheckersHtmlCodes[oCurCell.checker]);
 
 		}
 		else {
 
 			oCurCell.checker++;
 
+			//Если мы кликаем на самую последнюю линию для чёрных, то там может стоять только чёрная дамка
+			if(in_array(CELL_ID, aCellsOnlyBlackQueen))
+				if(oCurCell.checker == 2)
+					oCurCell.checker++;
+
 			if(oCurCell.checker > 3) {
-				oCurCell.isBusy = false;
+				oCurCell.busy = false;
 				oCurCell.checker = false;
 				$('[id="'+CELL_ID+'"]').html("");
 			}
@@ -86,11 +99,28 @@ jQuery(document).ready(function($) {
 		nCountResult = 0;
 
 		for (key in oCheckDesk)
-			if(oCheckDesk[key].isBusy === true)
+			if(oCheckDesk[key].busy === true)
 				nCountResult++;
 
 		return nCountResult;
 
 	}
+
+	function in_array(needle, haystack, strict) {	// Checks if a value exists in an array
+		//
+		// +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+
+		var found = false, key, strict = !!strict;
+
+		for (key in haystack) {
+			if ((strict && haystack[key] === needle) || (!strict && haystack[key] == needle)) {
+				found = true;
+				break;
+			}
+		}
+
+		return found;
+	}
+
 
 });
