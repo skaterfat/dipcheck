@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Dipcheck</title>
+	<link href="css/all.min.css" rel="stylesheet">
 	<link href="css/bootstrap.min.css" rel="stylesheet" media="all">
 	<link href="css/styles.css" rel="stylesheet" media="all">
 	<script src="js/jquery-3.3.1.min.js" defer></script>
@@ -64,6 +65,16 @@
 					<li class="checkers__col-name"><?=$col?></li>
 					<?endforeach;?>
 				</ul>
+
+			</div>
+
+			<div class="checkers__controls">
+
+				<a href="javascript:;" class="btn btn--white" id="change-step-checker-color" data-text='<i class="fas fa-exchange-alt"></i> Ход чёрных'><i class="fas fa-exchange-alt"></i> Ход белых</a>
+
+				<a href="javascript:;" class="btn btn--show-step"><i class="fas fa-dice"></i> Показать ходы</a>
+
+				<a href="javascript:;" class="btn btn--go"><i class="fas fa-chess-board"></i> Сделать ход</a>
 
 			</div>
 

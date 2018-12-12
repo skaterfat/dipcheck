@@ -93,6 +93,20 @@ jQuery(document).ready(function($) {
 
 	}
 
+	$("#change-step-checker-color").on('click', function(event) {
+		event.preventDefault();
+
+		var sNextText = $(this).attr('data-text'),
+			sPrevText = $(this).html();
+
+		if($(this).hasClass('btn--white'))
+			$(this).removeClass('btn--white').addClass('btn--black');
+		else
+			$(this).removeClass('btn--black').addClass('btn--white');
+
+		$(this).attr('data-text', sPrevText).html(sNextText);
+	});
+
 	//Функция подсчёта шашек на доске
 	function nCountCheckersOnDesk() {
 

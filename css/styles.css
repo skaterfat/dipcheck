@@ -21,13 +21,75 @@ body {
 }
 
 .checkers {
-
+	text-align: center;
 }
 
 .checkers-desk {
-
+	display: inline-block;
+	width: 630px;
 	margin-top: 30px;
+	margin-right: 20px;
+}
 
+.checkers__controls {
+	display: inline-block;
+	width: 200px;
+	margin-top: 30px;
+    vertical-align:top;
+}
+
+.checkers__controls > .btn {
+	float: left;
+	margin-bottom: 20px;
+	width: 100%;
+	font-weight: bold;
+	display: inline-block;
+	text-transform: uppercase;
+	-webkit-transition: all .25s ease;
+	   -moz-transition: all .25s ease;
+	    -ms-transition: all .25s ease;
+	     -o-transition: all .25s ease;
+	        transition: all .25s ease;
+}
+
+.checkers__controls .btn--white  {
+	background: #FFF;
+	color: #000;
+}
+
+.checkers__controls .btn--white:hover  {
+	background: #EEEEEE;
+	color: #000;
+}
+
+.btn--black {
+	background: #000;
+	color: #FFF;
+}
+
+.btn--black:hover {
+	background: #444;
+	color: #FFF;
+}
+
+.btn--show-step {
+	background: #a85d5d;
+	color: #FFF;
+}
+
+.btn--show-step:hover {
+	background: #cc8484;
+	color: #FFF;
+}
+
+.btn--go {
+	background: #e8a25e;
+	color: #FFF;
+}
+
+.btn--go:hover {
+	background: #f1b072;
+	color: #FFF;
 }
 
 .checkers__row {
