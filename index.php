@@ -27,12 +27,26 @@
 				<?
 				$arRows = Array(8, 7, 6, 5, 4, 3, 2, 1);
 				$arCols = Array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+				$arBarashCellIDs = Array(
+					7, 15, 23, 31,
+					6, 14, 22, 30,
+					13, 21, 29, 37,
+					12, 20, 28, 36,
+					19, 27, 35, 43,
+					18, 26, 34, 42,
+					25, 33, 41, 49,
+					24, 32, 40, 48
+				);
+
+				$nBarashID = -1;
 
 				foreach($arRows as $key => $row):
 
+					$bStartDarkCell = $row % 2 == 0 ? true : false;
+
 				?>
 
-					<ul class="checkers__row checkers__row--<?=$row?> <?=($row%2==0?'checkers__row--start-dark':'checkers__row--start-light')?>">
+					<ul class="checkers__row checkers__row--<?=$row?> <?=($bStartDarkCell?'checkers__row--start-light':'checkers__row--start-dark')?>">
 
 						<li class="checkers__row-name"><?=$row?></li>
 
@@ -48,10 +62,18 @@
 								$sChecker = '';
 
 							*/
+
+						if($bStartDarkCell)
+							$bIsDarkCell = $bStartDarkCell && $i % 2 == 0 ? false : true;
+						else
+							$bIsDarkCell = $i % 2 == 0 ? true : false;
+
+						if($bIsDarkCell)
+							$nBarashID++;
 						?>
 
 
-						<li class="checkers__cell checkers__cell--<?=($row%2==0&&$i%2==0?'dark':'light')?>" id="<?=$arCols[$i].$row?>"><?/*=$sChecker*/?></li>
+						<li class="checkers__cell checkers__cell--<?=($bIsDarkCell?'dark':'light')?>" id="<?=$arCols[$i].$row?>"<?=($bIsDarkCell?' data-barash-id="'.$arBarashCellIDs[$nBarashID].'"':'')?>><?/*=$sChecker*/?></li>
 						<?endfor;?>
 
 					</ul>
