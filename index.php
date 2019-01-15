@@ -73,7 +73,7 @@
 						?>
 
 
-						<li class="checkers__cell checkers__cell--<?=($bIsDarkCell?'dark':'light')?>" id="<?=$arCols[$i].$row?>"<?=($bIsDarkCell?' data-barash-id="'.$arBarashCellIDs[$nBarashID].'"':'')?>><?/*=$sChecker*/?></li>
+						<li class="checkers__cell checkers__cell--<?=($bIsDarkCell?'dark':'light')?>"<?=($bIsDarkCell?' id="cell-id-'.$arBarashCellIDs[$nBarashID].'"':'')?><?/* id="<?=$arCols[$i].$row?>"*/?><?=($bIsDarkCell?' data-barash-id="'.$arBarashCellIDs[$nBarashID].'"':'')?>><?/*=$sChecker*/?></li>
 						<?endfor;?>
 
 					</ul>

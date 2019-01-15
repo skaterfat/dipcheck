@@ -33,7 +33,7 @@ jQuery(document).ready(function($) {
 	//console.log(oCheckDesk);
 
 	//Клик по клетке
-	$('.checkers__cell').on('click', function(event) {
+	/*$('.checkers__cell').on('click', function(event) {
 		event.preventDefault();
 
 		if($(this).attr('data-barash-id'))
@@ -41,7 +41,7 @@ jQuery(document).ready(function($) {
 		else
 			alert('На белые клетки установка шашки невозможна!');
 
-	});
+	});*/
 
 	//Функция установки шашки на клетку
 	function setCheckerOnCell(CELL_ID) {
@@ -163,8 +163,8 @@ jQuery(document).ready(function($) {
 		$contloop,
 		$GettingRang,
 		$GettingRSq;
-		//tb MinRang=255,
-		//int NotCleared=0;
+		$MinRang = 255,
+		$NotCleared = 0;
 
 	$C = new Array();
 	$ww = new Array();
@@ -226,11 +226,67 @@ jQuery(document).ready(function($) {
 		int move;                // 1 -- ход белых, 0 -- ход черных
 	};*/
 
-	//Что это?
-	var $Can  = new Array(0,0,0,0,0,0,1,1,0,0,0,0,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-              1,1,1,1,1,1,0,0,1,1,1,1,0,0,0,0,1,1,0,0,0,0,0,0);
+	var $Can  = new Array(
+		0,0,0,0,0,0,1,1,
+		0,0,0,0,1,1,1,1,
+		0,0,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,0,0,
+		1,1,1,1,0,0,0,0,
+		1,1,0,0,0,0,0,0
+    );
 
-	console.log($Can);
+	//console.log($Can);
+
+	var arCanStay = new Array(
+			7,		15,		23,		31,
+		6,		14,		22,		30,
+			13,		21,		29,		37,
+		12,		20,		28,		36,
+			19,		27,		35,		43,
+		18,		26,		34,		42,
+			25,		33,		41,		49,
+		24,		32,		40,		48
+	),
+		arCellsNums2 = new Array(
+										7,		15,		23,		31,		39,		47,		55,
+									6,		14,		22,		30,		38,		46,		54,
+								5,		13,		21,		29,		37,		45,		53,
+							4,		12,		20,		28,		36,		44,		52,
+						3,		11,		19,		27,		35,		43,		51,
+					2,		10,		18,		26,		34,		42,		50,
+				1,		9,		17,		25,		33,		41,		49,
+			0,		8,		16,		24,		32,		40,		48
+		),
+		arCellsNums = new Array();
+
+	for(var i = 0; i < 56; i++)
+		arCellsNums[i] = i;
+
+	//console.log(arCellsNums);
+
+	var $OwnToNum = new Array(255,255,255,255,255,255,0,1,255,255,255,255,2,3,4,5,
+                   255,255,6,7,8,9,10,11,12,13,14,15,16,17,18,19,
+                   20,21,22,23,24,25,255,255,26,27,28,29,255,255,255,255,
+                   30,31,255,255,255,255,255,255);
+
+	var $BWKB = new Array(255,255,255,255,255,255,0,1,255,255,255,255,1,2,3,4,255,255,
+		      4,5,6,7,8,9,255,9,10,11,12,13,14,15,255,15,16,17,18,19,255,255,255,20,
+		        21,22,255,255,255,255,255,23,255,255,255,255,255,255);
+		// BoardWithoutKr -- доска без крайних (1ой и 8ой) горизонталей
+		// BWKB отл. от BWK, что для восьмой горизонтали не выдает ошибку(255),
+		// а выдает результат для ближайшей в большую сторону клетки
+
+	var $BW1 = new Array(255,255,255,255,255,255,0,1,255,255,255,255,2,3,4,5,255,255,
+		              6,7,8,9,10,11,255,12,13,14,15,16,17,18,
+		              255,19,20,21,22,23,255,255,255,24,25,26,255,255,255,255,255,27,
+		              255,255,255,255,255,255);
+
+		// BoardWithout1st -- доска без 1ой горизонтали
+	var $WK = new Array(6,12,13,14,18,19,20,21,22,25,26,27,28,29,30,33,34,35,36,37,41,42,43,49);
+	var $W1 = new Array(6,7,12,13,14,15,18,19,20,21,22,23,25,26,27,28,29,30,31,33,34,35,36,37,41,42,43,49);
+	var $NumToOwn = new Array(6,7,12,13,14,15,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,40,41,42,43,48,49);
+	var $CanEat = new Array(0,1,1,1,1,0,0,0,0);
 
 	function CalcC($n, $k) { // Вычисляем C_n^k
 
@@ -258,6 +314,36 @@ jQuery(document).ready(function($) {
 		}
 
 		//console.log($C);
+	}
+
+	function CompM($w0, $w01, $w1, $w11, $w2, $w21, $w3, $w31, $w4, $w41) { // 1, если 1>0, 0 в ост.
+		if($w41 == $w4)
+			if($w31 == $w3)
+				if($w21 == $w2)
+					if($w11 == $w1)
+						if($w01 == $w0)
+							return 0;
+						else if($w01 > $w0) return 1; else return 0;
+					else if($w11 > $w1) return 1; else return 0;
+				else if($w21 > $w2) return 1; else return 0;
+			else if($w31 > $w3) return 1; else return 0;
+		else if($w41 > $w4) return 1; else return 0;
+	};
+
+	function GetM($w0, $w1, $w2, $w3, $w4) {
+
+		var $a = -1,
+			$b = $wcount,
+			$curr; // Логарифмический поиск!
+
+		while(($b-$a)>1) {
+			$curr = ($a+$b)/2;
+			if(CompM($ww[$curr][0], $w0, $ww[$curr][1], $w1, $ww[$curr][2], $w2, $ww[$curr][3], $w3, $ww[$curr][4], $w4))
+				$a = $curr;
+			else
+				$b = $curr;
+		}
+		return $b;
 	}
 
 	function WInit() {
@@ -352,6 +438,40 @@ jQuery(document).ready(function($) {
 
 	}
 
+	//Тут похоже идет чтение файла (ajax запрос на сторону PHP)
+	/*function GetRang($m, $num){
+		var $buf;
+		lseek($wbfile, $smf[$m] + $num, SEEK_SET);
+		read($wbfile, &buf, 1);
+		return $buf;
+	}*/
+
+	function GetBoardRang($pos) {// достаточно предварительно заполнять
+
+		var $num = MyTransf($pos),  // в pos только краткую информацию (анал. brboard)!
+			$MR = 255;
+
+		if($pos.move) {
+
+			$GettingRang = 1;
+
+			$MinRang = 255;
+
+			GetPosChildren($pos);
+
+			$GettingRang = 0;
+
+			if($MinRang == 255)
+				$MR = $MinRang;
+			else
+				$MR = $MinRang + 1;
+		}
+		else
+			$MR = GetRang(GetM($pos.w1, $pos.wsc - $pos.w1, $pos.bsc, $pos.wdc, $pos.bdc), $num);
+
+		return $MR;
+	}
+
 	function Initialize() {
 
 		CInit();
@@ -389,6 +509,101 @@ jQuery(document).ready(function($) {
 
 	}
 
+	//Очистка клетки
+	function ClearSq($x) {
+
+		if($NotCleared) {
+			$NotCleared = 0;
+			ClearRSq();
+		}
+
+		console.log('Очистка клетки ' + $x);
+		document.getElementById("cell-id-" + $x).innerHTML = '';
+
+	}
+
+	//Рисуем белую шашку
+	function DrawWS($a) {
+
+		ClearSq($a);
+
+		console.log('Рисуем белую шашку на ' + $a);
+		document.getElementById("cell-id-" + $a).innerHTML = '<span class="checkers__check checkers__check--white"></span>';
+
+	}
+
+	//Рисуем черную шашку
+	function DrawBS($a) {
+
+		ClearSq($a);
+
+		console.log('Рисуем черную шашку на ' + $a);
+		document.getElementById("cell-id-" + $a).innerHTML = '<span class="checkers__check checkers__check--black"></span>';
+
+	}
+
+	//Рисуем белую дамку
+	function DrawWD($a) {
+
+		ClearSq($a);
+
+		console.log('Рисуем белую дамку на ' + $a);
+		document.getElementById("cell-id-" + $a).innerHTML = '<span class="checkers__check checkers__check--white-queen"></span>';
+
+	}
+
+	//Рисуем чёрную дамку
+	function DrawBD($a) {
+
+		ClearSq($a);
+
+		console.log('Рисуем чёрную дамку на ' + $a);
+		document.getElementById("cell-id-" + $a).innerHTML = '<span class="checkers__check checkers__check--black-queen"></span>';
+
+	}
+
+	function DrawFig($a, $fig) {
+
+		//console.log('Клетка - ' + $a + ', Фигура - ' + $fig);
+
+		if($fig == 1)
+			DrawWS($a);
+		else if($fig == 2)
+			DrawBS($a);
+		else if($fig == 3)
+			DrawWD($a);
+		else if($fig == 4)
+			DrawBD($a);
+		else
+			ClearSq($a);
+
+	}
+
+	var $figures = 0;
+
+	function ClearRSq() {
+
+		var $CS;
+
+		for(var $i = 0; $i < 56; $i++) {
+
+			for(var $j = 0; $j < 4; $j++)
+
+				if($mypos.RSq[$i][$j] != 254) {
+					$mypos.RSq[$i][$j] = 254;
+					$CS = 1;
+				}
+
+			if($CS) {
+				$CS = 0;
+				ClearSq($i);
+			}
+
+		}
+
+	}
+
+
 	//fullboard mypos;
 	//fullboard UpsDn;
 
@@ -425,9 +640,88 @@ jQuery(document).ready(function($) {
 
 		}
 
+		if(document.addEventListener) {
+
+			//Отлавливаем клик
+			document.addEventListener("click", function(event) {
+
+				event.stopPropagation();
+
+				var targetElement = event.target || event.srcElement;
+
+				if(!targetElement.classList.contains('checkers__cell'))
+					if(targetElement.parentElement.classList.contains('checkers__cell'))
+						targetElement = targetElement.parentElement;
+
+				//Клик по клетке доски
+				if(targetElement.classList.contains('checkers__cell')) {
+
+					//Если на клетку разрешено ставить
+					if(targetElement.getAttribute('data-barash-id')) {
+
+						var $x = targetElement.getAttribute('data-barash-id'),
+							$NEq = 1;
+
+						//Шашку можно ставить?
+						if($Can[$x]) {
+
+							/*if(b_x > 2)
+								if($mypos.cb[$x] != 0) {
+									$mypos.cb[$x] = 0;
+									$figures--;
+								}
+								else ;
+							else if($mypos.cb[$x] == 0)
+								if($figures < $f) {
+									$figures++;
+									$mypos.cb[$x]++;
+								}
+								else $NEq = 0;
+							else if($mypos.cb[$x] == 4) {
+								$mypos.cb[$x] = 0;
+								$figures--;
+							}
+							else
+								$mypos.cb[$x]++;*/
+
+							if($mypos.cb[$x] == 0)
+								if($figures < $f) {
+									$figures++;
+									$mypos.cb[$x]++;
+								}
+								else $NEq = 0;
+							else if($mypos.cb[$x] == 4) {
+								$mypos.cb[$x] = 0;
+								$figures--;
+							}
+							else
+								$mypos.cb[$x]++;
+
+							//Пропускаем черную пешку на линии внизу (т.е. выставляем след. тип шашки)
+							if((!($x%8)) && ($mypos.cb[$x] == 2))
+								$mypos.cb[$x]++;
+
+							//Пропускаем белую пешку на линии вверху (т.е. выставляем след. тип шашки)
+							if(($x%8==7) && ($mypos.cb[$x] == 1))
+								$mypos.cb[$x]++;
+
+							if($NEq)
+								DrawFig($x, $mypos.cb[$x]);
+
+						}
+
+					}
+
+				}
+
+			});
+
+		}
+
 
 		/*while($contloop) {
 
+			//Размещение шашек
 			while($mytrue) {
 
 				b_x = 0;
